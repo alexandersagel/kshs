@@ -95,7 +95,7 @@ for dt in ['alpha', 'beta', 'gamma']:
 
     for i in tqdm.tqdm(range(len(glob.glob('data/dyntex_' + dt + '/*')))):
         files = glob.glob('data/dyntex_' + dt + '/c' + str(i+1)
-                          + '_*/*_nst.npy')
+                          + '_*/*_st.npy')
         Vs = []
         for f in files:
             labels.append(i)
