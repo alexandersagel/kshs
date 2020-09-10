@@ -3,7 +3,7 @@
 """
 Created on Thu Jul 23 11:12:25 2020
 
-@author: sagel
+@author: Alexander Sagel
 """
 
 from kymatio.torch import Scattering2D
@@ -25,16 +25,22 @@ def readvid_gr_features(filename, st, normalized=None):
     Loads video from a file, converts it to Grayscale and computes a sequences
     of Scattering subband histogram vectors
 
-    Input
-        filename:        Location of Dynamic Texture Video
-        st:              2D Scattering transform model
-        normalized:      Tuple (J, L) containing the respective Scattering
-                         parameters if the Scattering coefficients are to be
-                         normalized and None otherwise
-    Output
-       feature_sequence: Sequence of subband histogram features (N x S x B)
-                         N=Video sequence length, S=# of Scattering channels
-                         B=NBINS=# of Histogram bins
+    Parameters
+    ----------
+    filename : String,
+        Location of Dynamic Texture Video.
+    st : Kymatio Torch Module,
+        2D Scattering transform model.
+    normalized : Tuple, optional
+        Scattering parameters (J, L) if the Scattering coefficients are to be
+        normalized. The default is None.
+
+    Returns
+    -------
+    feature_sequence : Numpy Array,
+        Sequence of subband histogram features (N x S x B)
+        N=Video sequence length, S=# of Scattering channels
+        B=NBINS=# of Histogram bins.
     '''
     V = []
     vid = imageio.get_reader(filename,  'ffmpeg')
@@ -53,15 +59,21 @@ def extract_hist_features(imgs, st, normalized):
     Expects a feature vector of Scattering subband histograms from an image
     tensor
 
-    Input
-        imgs:       numpy image array (N x C x H x W) or (C x H x W)
-        st:         2D Scattering transform model
-        normalized: Tuple (J, L) containing the respective Scattering
-                    parameters if the Scattering coefficients are to be
-                    normalized and None otherwise
-    Output
-        features:   Subband histogram features (N x C x S x B),
-                    S=# of Scattering channels B=NBINS=# of Histogram bins
+    Parameters
+    ----------
+    imgs : Numpy Array,
+        Image array (N x C x H x W) or (C x H x W).
+    st : Kymatio Torch Module,
+        2D Scattering transform model.
+    normalized : Tuple, optional
+        Scattering parameters (J, L) if the Scattering coefficients are to be
+        normalized. Otherwise None.
+
+    Returns
+    -------
+    features : Numpy Array
+        Subband histogram features (N x C x S x B), S=# of Scattering channels
+        B=NBINS=# of Histogram bins.
     '''
     imgs = imgs.reshape(-1, imgs.shape[-3], imgs.shape[-2], imgs.shape[-1])
     stimgs = st(torch.tensor(np.float32(imgs), device='cuda')).cpu().numpy()
@@ -94,7 +106,7 @@ def extract_hist_features(imgs, st, normalized):
 
 st = Scattering2D(4, (288, 352), L=4).cuda()
 
-for dt in ['alpha', 'beta', 'gamma']:
+for dt in ['beta', 'gamma', 'alpha']:
     print('Processing split', dt)
     features = []
     labels = []
