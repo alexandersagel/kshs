@@ -106,7 +106,7 @@ def extract_hist_features(imgs, st, normalized):
 
 st = Scattering2D(4, (288, 352), L=4).cuda()
 
-for dt in ['beta', 'gamma', 'alpha']:
+for dt in ['alpha', 'beta', 'gamma']:
     print('Processing split', dt)
     features = []
     labels = []
