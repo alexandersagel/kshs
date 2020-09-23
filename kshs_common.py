@@ -98,8 +98,8 @@ def class_center(spaces, N_tilde=200):
         Q.append(np.eye(f[1].shape[1]))
     H = np.concatenate(H)
     H_bar = kk.fit(H.reshape(-1, H.shape[-2]*H.shape[-1])
-                     ).cluster_centers_.reshape(N_tilde,
-                                                H.shape[-2], H.shape[-1])
+                   ).cluster_centers_.reshape(N_tilde, H.shape[-2],
+                                              H.shape[-1])
     H_bar = np.where(H_bar < 0, 0, H_bar)
     U, S, _ = np.linalg.svd(hist_bhat_kernel(H_bar, H_bar))
     C_ = U/np.sqrt(S.reshape(1, -1))
@@ -124,7 +124,7 @@ def class_center(spaces, N_tilde=200):
 def nuclear_distance(xi_1, xi_2):
     '''
     Computes the Nuclear distance
-    
+
     Parameters
     ----------
     xi_1 : Tuple,
