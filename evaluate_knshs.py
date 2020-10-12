@@ -26,7 +26,7 @@ for dt in ['alpha', 'beta', 'gamma']:
         for f in files:
             labels.append(i)
             V = np.load(f)
-            features.append(extract_subspace(V, n=5, N_tilde=15))
+            features.append(extract_subspace(V, n=5, N_tilde=10))
 
     labels = np.asarray(labels)
 
@@ -43,7 +43,7 @@ for dt in ['alpha', 'beta', 'gamma']:
     class_centers = []
     for i in range(labels[-1]+1):
         class_centers.append(class_center(
-            list(compress(features, labels == i)), N_tilde=15))
+            list(compress(features, labels == i)), N_tilde=10))
     print('    Performing NCC Classification...')
     D_cc = np.zeros((len(features), labels[-1]+1))
     for i in tqdm.tqdm(range(D_cc.shape[0])):
@@ -52,7 +52,7 @@ for dt in ['alpha', 'beta', 'gamma']:
                 cc_index = labels == j
                 cc_index[i] = False
                 cc = class_center(list(compress(features, cc_index)),
-                                  N_tilde=15)
+                                  N_tilde=10)
             else:
                 cc = class_centers[j]
             D_cc[i, j] = nuclear_distance(features[i], cc)
