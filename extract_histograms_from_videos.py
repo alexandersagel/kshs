@@ -114,7 +114,7 @@ for dt in ['alpha', 'beta', 'gamma']:
         files = glob.glob('data/dyntex_' + dt + '/c' + str(i+1) + '_*/*.avi')
         for f in files:
             labels.append(i)
-            #Normalized Scattering Transform:
+            # Normalized Scattering Transform:
             np.save(f[:-4] + '_nst.npy', readvid_gr_features(f, st, (4, 4)))
-            #Regular Scattering Transform
+            # Regular Scattering Transform
             np.save(f[:-4] + '_st.npy', readvid_gr_features(f, st))
