@@ -74,7 +74,7 @@ def extract_subspace(H, n=5, N_tilde=100):
     return (H_tilde, C_tilde)
 
 
-def class_center(spaces, N_tilde=200):
+def class_center(spaces, N_bar=200):
     '''
     Computes the Frechet mean from a set of space parameter pauirs
 
@@ -82,7 +82,7 @@ def class_center(spaces, N_tilde=200):
     ----------
     spaces : List,
         Sequence of parameter pairs.
-    N_tilde : Integer, optional
+    N_bar : Integer, optional
         # of Cluster centers for k-means. The default is 200.
 
     Returns
@@ -90,7 +90,7 @@ def class_center(spaces, N_tilde=200):
     H_bar, C_bar : Numpy arrays,
         Estimated Frechet mean
     '''
-    kk = KMeans(N_tilde)
+    kk = KMeans(N_bar)
     H = []
     Q = []
     for f in spaces:
@@ -98,7 +98,7 @@ def class_center(spaces, N_tilde=200):
         Q.append(np.eye(f[1].shape[1]))
     H = np.concatenate(H)
     H_bar = kk.fit(H.reshape(-1, H.shape[-2]*H.shape[-1])
-                   ).cluster_centers_.reshape(N_tilde, H.shape[-2],
+                   ).cluster_centers_.reshape(N_bar, H.shape[-2],
                                               H.shape[-1])
     H_bar = np.where(H_bar < 0, 0, H_bar)
     U, S, _ = np.linalg.svd(hist_bhat_kernel(H_bar, H_bar))
